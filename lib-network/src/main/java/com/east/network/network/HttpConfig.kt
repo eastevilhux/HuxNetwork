@@ -174,7 +174,7 @@ class HttpConfig private constructor(builder: Builder) {
     }
 
     fun addHealder(key:String,value:String){
-        healder?.let {
+        healder?:let {
             healder = TreeMap();
         }
         healder!!.put(key,value);
