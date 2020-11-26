@@ -1,9 +1,11 @@
 package com.east.network.network
 
+import com.east.network.network.interceptor.HttpInterceptor
 import com.east.network.network.retrofit.model.AppModel
+import java.util.*
 
 class NetworkHelper private constructor(builder: HttpConfig.Builder){
-
+    private var httpHelper : HttpInterceptor.HttpHeader? = null;
 
     companion object{
         @Volatile
@@ -43,7 +45,11 @@ class NetworkHelper private constructor(builder: HttpConfig.Builder){
         return mHttpConfig!!;
     }
 
-    fun addHealder(key:String,value : String){
-        mHttpConfig?.addHealder(key,value);
+    fun addHttpHealder(header: HttpInterceptor.HttpHeader){
+        this.httpHelper = header;
+    }
+
+    fun httpHeader(): HttpInterceptor.HttpHeader? {
+        return httpHelper;
     }
 }

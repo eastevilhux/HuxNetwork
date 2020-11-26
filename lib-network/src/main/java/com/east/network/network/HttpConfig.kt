@@ -24,8 +24,6 @@ class HttpConfig private constructor(builder: Builder) {
 
     private var HTTP_CHARSET = Charset.forName(charset);
 
-    private var healder : TreeMap<String,String>? = null;
-
     init {
         SERVICE_URL = builder.SERVICE_URL
         TOKEN_URL = builder.TOKEN_URL
@@ -39,7 +37,6 @@ class HttpConfig private constructor(builder: Builder) {
         MAX_AGE = builder.MAX_AGE
         charset = builder.charset
         HTTP_CHARSET = Charset.forName(builder.charset)
-        healder = builder.healder;
     }
 
     companion object{
@@ -168,16 +165,4 @@ class HttpConfig private constructor(builder: Builder) {
     fun maxAge(): Int {
         return MAX_AGE;
     }
-
-    fun healder(): TreeMap<String, String>? {
-        return healder;
-    }
-
-    fun addHealder(key:String,value:String){
-        healder?:let {
-            healder = TreeMap();
-        }
-        healder!!.put(key,value);
-    }
-
 }

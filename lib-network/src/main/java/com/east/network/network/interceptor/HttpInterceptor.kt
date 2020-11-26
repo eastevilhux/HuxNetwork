@@ -6,8 +6,11 @@ import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import java.nio.charset.Charset
+import java.util.*
 
 class HttpInterceptor : Interceptor{
+
+    private var httpHeader : HttpHeader? = null;
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val oldRequest = chain.request()
@@ -70,7 +73,7 @@ class HttpInterceptor : Interceptor{
         userid?.let {
             builder.add("userid", it);
         }*/
-        val healder = NetworkHelper.instance().httpConfig().healder();
+        val healder = httpHeader?.getHealder();
         healder?.let {
             for(entry in healder){
                 builder.add(entry.key,entry.value);
@@ -78,4 +81,13 @@ class HttpInterceptor : Interceptor{
         }
         return builder.build()
     }
+
+    fun addHeader(httpHeader: HttpHeader?){
+        this.httpHeader = httpHeader;
+    }
+
+    interface HttpHeader{
+        fun getHealder() : TreeMap<String,String>;
+    }
+
 }

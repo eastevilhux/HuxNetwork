@@ -19,6 +19,10 @@ class RetrofitConfigure {
 
         fun registerService(map: HashMap<String, Class<*>>): HashMap<String, Any> {
             synchronized(RetrofitConfigure::class.java) {
+                var httpInterceptor = HttpInterceptor();
+
+                httpInterceptor.addHeader(NetworkHelper.instance().httpHeader())
+
                 Companion.map = map
                 if (Companion.map == null || Companion.map!!.isEmpty()) {
                     throw NullPointerException("the service is null")
