@@ -24,6 +24,16 @@ class DataHelper {
         this.key = key;
     }
 
+    fun setRSA(){
+        decryptType = DataType.TYPE_RSA;
+        encryptType = DataType.TYPE_RSA;
+    }
+
+    fun setAES(){
+        decryptType = DataType.TYPE_AES;
+        encryptType = DataType.TYPE_AES;
+    }
+
     fun encryptData(data:String) : String?{
         if(key == null){
             throw NullPointerException("the key not be null");
