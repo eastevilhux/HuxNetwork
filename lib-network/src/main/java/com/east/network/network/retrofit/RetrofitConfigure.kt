@@ -42,6 +42,7 @@ class RetrofitConfigure {
                     .addInterceptor(ParamsInterceptor())
                     .addNetworkInterceptor(HttpInterceptor())
                     .build()
+
                 val mRetrofit: Retrofit = Retrofit.Builder()
                     .baseUrl(NetworkHelper.instance().httpConfig().baseUrl())
                     .addConverterFactory(
@@ -52,6 +53,7 @@ class RetrofitConfigure {
                     .addCallAdapterFactory(BaseCallAdapterFactory()) //添加rxjava转换器
                     .client(okHttpClient)
                     .build()
+
                 val m = HashMap<String, Any>(map.size)
                 for ((key, value) in Companion.map!!.entries) {
                     m[key] = mRetrofit.create(value)

@@ -1,7 +1,6 @@
 package com.east.network.utils
 
 import android.util.Log
-import com.east.network.BuildConfig
 
 object LogUtil {
     private var debug = false
@@ -31,7 +30,7 @@ object LogUtil {
     }
 
     fun isDebug(): Boolean {
-        return BuildConfig.DEBUG;
+        return debug;
     }
 
     fun setDebug(debug: Boolean) {
