@@ -2,11 +2,13 @@ package com.east.network.network.retrofit.convert
 
 import android.annotation.SuppressLint
 import android.util.Log
+import com.east.network.network.HttpConfig
 import com.google.gson.Gson
 import com.google.gson.TypeAdapter
 import com.google.gson.reflect.TypeToken
 import com.east.network.network.NetworkHelper
 import com.east.network.network.datasource.DataHelper
+import com.east.network.utils.Base64Util
 import com.east.network.utils.LogUtil
 import com.yunkai.framework.network.entity.Result
 import com.east.network.utils.isJson
@@ -15,13 +17,14 @@ import org.json.JSONObject
 import retrofit2.Converter
 import java.io.StringReader
 import java.lang.reflect.Type
+import java.net.URLDecoder
 
 class BaseResponseBodyConverter<T> internal constructor(
     private val gson: Gson,
     private val adapter: TypeAdapter<T>
 ) : Converter<ResponseBody, T> {
     companion object {
-        private const val TAG = "YKResponseBodyConverter==>";
+        private const val TAG = "BaseResponseBodyConverter==>";
     }
 
     @SuppressLint("LongLogTag")
@@ -54,15 +57,16 @@ class BaseResponseBodyConverter<T> internal constructor(
             val reader = StringReader(gsonData);
             return adapter.fromJson(reader)
         }else{
-            val type: Type = object : TypeToken<Result<T>?>() {}.type
+            val type: Type = object : TypeToken<kotlin.Result<T>?>() {}.type
             var result : Result<T> = gson.fromJson(data,type);
             data = result.data.toString();
-            data = String(data.toByteArray(), NetworkHelper.instance().httpConfig().httpCharset());
-            LogUtil.d(TAG,data);
-            if(data.isJson()){
-                result.data = gson.fromJson<T>(data,object : TypeToken<T?>() {}.type);
+            data = URLDecoder.decode(data,NetworkHelper.instance().httpConfig().charset());
+            val s = String(Base64Util.decode(data), NetworkHelper.instance().httpConfig().httpCharset());
+            LogUtil.d(TAG,"base64_to_string==>${s}");
+            if(s.isJson()){
+                result.data = gson.fromJson<T>(s,object : TypeToken<T?>() {}.type);
             }else{
-                result.data = data as T;
+                result.data = s as T;
             }
             var gsonData = gson.toJson(result);
             LogUtil.e(TAG,gsonData);
