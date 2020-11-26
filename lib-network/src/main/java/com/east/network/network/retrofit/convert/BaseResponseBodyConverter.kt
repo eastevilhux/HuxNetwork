@@ -57,7 +57,7 @@ class BaseResponseBodyConverter<T> internal constructor(
             val reader = StringReader(gsonData);
             return adapter.fromJson(reader)
         }else{
-            val type: Type = object : TypeToken<kotlin.Result<T>?>() {}.type
+            val type: Type = object : TypeToken<Result<T>?>() {}.type
             var result : Result<T> = gson.fromJson(data,type);
             data = result.data.toString();
             data = URLDecoder.decode(data,NetworkHelper.instance().httpConfig().charset());
