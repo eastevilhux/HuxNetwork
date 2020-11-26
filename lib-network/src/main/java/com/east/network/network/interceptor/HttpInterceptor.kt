@@ -70,6 +70,12 @@ class HttpInterceptor : Interceptor{
         userid?.let {
             builder.add("userid", it);
         }*/
+        val healder = NetworkHelper.instance().httpConfig().healder();
+        healder?.let {
+            for(entry in healder){
+                builder.add(entry.key,entry.value);
+            }
+        }
         return builder.build()
     }
 }

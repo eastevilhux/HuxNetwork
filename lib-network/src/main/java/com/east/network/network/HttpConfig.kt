@@ -1,6 +1,7 @@
 package com.east.network.network
 
 import java.nio.charset.Charset
+import java.util.*
 
 class HttpConfig private constructor(builder: Builder) {
     //请求服务器地址URL
@@ -23,6 +24,7 @@ class HttpConfig private constructor(builder: Builder) {
 
     private var HTTP_CHARSET = Charset.forName(charset);
 
+    private var healder : TreeMap<String,String>? = null;
 
     init {
         SERVICE_URL = builder.SERVICE_URL
@@ -37,6 +39,7 @@ class HttpConfig private constructor(builder: Builder) {
         MAX_AGE = builder.MAX_AGE
         charset = builder.charset
         HTTP_CHARSET = Charset.forName(builder.charset)
+        healder = builder.healder;
     }
 
     companion object{
@@ -61,6 +64,8 @@ class HttpConfig private constructor(builder: Builder) {
 
         //Retrofit缓存时间为1小时
         internal var MAX_AGE : Int = 60;
+
+        internal var healder : TreeMap<String,String>? = null;
 
         fun tokenUrl(tokenUrl:String) : Builder {
             TOKEN_URL = tokenUrl;
@@ -112,6 +117,12 @@ class HttpConfig private constructor(builder: Builder) {
             return this;
         }
 
+        fun addHealder(key:String,value:String){
+            healder?:let {
+                healder = TreeMap();
+            }
+            healder!![key] = value;
+        }
 
         fun builder() : HttpConfig {
             return HttpConfig(this);
@@ -156,6 +167,17 @@ class HttpConfig private constructor(builder: Builder) {
 
     fun maxAge(): Int {
         return MAX_AGE;
+    }
+
+    fun healder(): TreeMap<String, String>? {
+        return healder;
+    }
+
+    fun addHealder(key:String,value:String){
+        healder?.let {
+            healder = TreeMap();
+        }
+        healder!!.put(key,value);
     }
 
 }

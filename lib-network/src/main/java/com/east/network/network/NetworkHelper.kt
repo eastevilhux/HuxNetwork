@@ -6,7 +6,6 @@ class NetworkHelper private constructor(builder: HttpConfig.Builder){
 
 
     companion object{
-
         @Volatile
         private var myself: NetworkHelper? = null
         fun init(builder: HttpConfig.Builder): NetworkHelper {
@@ -44,5 +43,7 @@ class NetworkHelper private constructor(builder: HttpConfig.Builder){
         return mHttpConfig!!;
     }
 
-
+    fun addHealder(key:String,value : String){
+        mHttpConfig?.addHealder(key,value);
+    }
 }

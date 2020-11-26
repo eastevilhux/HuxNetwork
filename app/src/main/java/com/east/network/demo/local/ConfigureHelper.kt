@@ -35,4 +35,8 @@ class ConfigureHelper {
             .networkErrorCode(404);
         NetworkHelper.init(builder);
     }
+
+    fun addHelader(key:String,value:String){
+        NetworkHelper.instance().httpConfig().addHealder(key,value);
+    }
 }
