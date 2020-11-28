@@ -1,6 +1,7 @@
 package com.east.network.network.interceptor
 
 import com.east.network.network.NetworkHelper
+import com.east.network.utils.LogUtil
 import okhttp3.Headers
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -73,11 +74,15 @@ class HttpInterceptor : Interceptor{
         userid?.let {
             builder.add("userid", it);
         }*/
+        LogUtil.d("healder==>","to_addhealder");
         val healder = httpHeader?.getHealder();
         healder?.let {
+            LogUtil.d("healder==>","start_addhealder");
             for(entry in healder){
+                LogUtil.d("healder==>","key=>${entry.key},value=>${entry.value}");
                 builder.add(entry.key,entry.value);
             }
+            LogUtil.d("healder==>","end_addhealder");
         }
         return builder.build()
     }
