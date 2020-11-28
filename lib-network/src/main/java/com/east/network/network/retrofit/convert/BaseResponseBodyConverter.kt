@@ -42,6 +42,8 @@ class BaseResponseBodyConverter<T> internal constructor(
         LogUtil.d(TAG,encryption.toString());
         if(encryption){
             //需要数据解密
+            data = URLDecoder.decode(data,NetworkHelper.instance().httpConfig().charset());
+            LogUtil.d(TAG,"URLDECODER=>${data}");
             data = DataHelper.instance.decrpytData(data);
             LogUtil.d(TAG,data);
             var result = Result<T>();
