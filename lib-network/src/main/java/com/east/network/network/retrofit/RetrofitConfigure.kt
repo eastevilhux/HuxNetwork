@@ -20,7 +20,6 @@ class RetrofitConfigure {
         fun registerService(map: HashMap<String, Class<*>>): HashMap<String, Any> {
             synchronized(RetrofitConfigure::class.java) {
                 var httpInterceptor = HttpInterceptor();
-
                 httpInterceptor.addHeader(NetworkHelper.instance().httpHeader())
 
                 Companion.map = map
@@ -40,7 +39,7 @@ class RetrofitConfigure {
                         NetworkHelper.instance().httpConfig().timeOut(),
                         TimeUnit.SECONDS
                     )
-                    .addInterceptor(HttpInterceptor())
+                    .addInterceptor(httpInterceptor)
                     .addInterceptor(LogInterceptor())
                     .addInterceptor(NetInterceptor())
                     .addInterceptor(ParamsInterceptor())
