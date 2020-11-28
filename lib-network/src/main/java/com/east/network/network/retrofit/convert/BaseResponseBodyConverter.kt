@@ -42,7 +42,7 @@ class BaseResponseBodyConverter<T> internal constructor(
         LogUtil.d(TAG,encryption.toString());
         if(encryption){
             //需要数据解密
-            data = DataHelper.instance.encryptData(data);
+            data = DataHelper.instance.decrpytData(data);
             LogUtil.d(TAG,data);
             var result = Result<T>();
             result.code = code;

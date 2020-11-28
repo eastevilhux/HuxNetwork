@@ -38,12 +38,29 @@ class DataHelper {
         if(key == null){
             throw NullPointerException("the key not be null");
         }
-        return when(decryptType){
+        return when(encryptType){
             DataType.TYPE_AES ->{
                 return aesFactory.create().encryptionData(data,key!!,iv);
             }
             DataType.TYPE_RSA ->{
                 return rsaFactory.create().encryptionData(data,key!!,iv);
+            }
+        }
+    }
+
+    fun decrpytData(data:String?,iv:String? = null): String? {
+        if(key == null){
+            throw NullPointerException("the key not be null");
+        }
+        if(data == null || data.isEmpty()){
+            return data;
+        }
+        return when(decryptType){
+            DataType.TYPE_AES->{
+                return aesFactory.create().decryptData(data,key!!);
+            }
+            DataType.TYPE_RSA->{
+                return rsaFactory.create().decryptData(data,key!!);
             }
         }
     }
