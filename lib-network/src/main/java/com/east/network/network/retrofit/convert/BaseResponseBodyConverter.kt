@@ -16,6 +16,7 @@ import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Converter
 import java.io.StringReader
+import java.lang.Exception
 import java.lang.reflect.Type
 import java.net.URLDecoder
 
@@ -63,9 +64,13 @@ class BaseResponseBodyConverter<T> internal constructor(
             data = URLDecoder.decode(data,NetworkHelper.instance().httpConfig().charset());
             val s = String(Base64Util.decode(data), NetworkHelper.instance().httpConfig().httpCharset());
             LogUtil.d(TAG,"base64_to_string==>${s}");
-            if(s.isJson()){
-                result.data = gson.fromJson<T>(s,object : TypeToken<T?>() {}.type);
-            }else{
+            try{
+                Log.d(TAG,"S_TO_JSON=>")
+                val type: Type = object : TypeToken<T>() {}.type
+                var t = gson.fromJson<T>(s,type);
+                result.data = t;
+            }catch (e:Exception){
+                Log.d(TAG,"S_IS_NOTJSON=>")
                 result.data = s as T;
             }
             var gsonData = gson.toJson(result);
