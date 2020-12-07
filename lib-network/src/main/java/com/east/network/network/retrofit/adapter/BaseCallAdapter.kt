@@ -39,8 +39,10 @@ class BaseCallAdapter<R>(private val type: Type) : CallAdapter<R, R> {
 
     override fun responseType(): Type = type;
 
-    private fun loginError(){
+    private fun loginError(): R {
         LogUtil.d(TAG,"login_error");
+        return exception(Result<Any>(),"login_error",
+            NetworkHelper.instance().httpConfig().loginErrorCode()) as R;
     }
 
     private fun errorResponse(response: Response<R>) : R{

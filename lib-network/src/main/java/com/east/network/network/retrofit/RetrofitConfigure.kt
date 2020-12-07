@@ -95,7 +95,6 @@ class RetrofitConfigure {
         fun registerService(map: HashMap<String, Class<*>>): HashMap<String, Any> {
             synchronized(RetrofitConfigure::class.java) {
                 var httpInterceptor = HttpInterceptor();
-
                 httpInterceptor.addHeader(NetworkHelper.instance().httpHeader())
                 val okHttpClient = OkHttpClient().newBuilder()
                     .connectTimeout(
@@ -110,7 +109,7 @@ class RetrofitConfigure {
                         NetworkHelper.instance().httpConfig().timeOut(),
                         TimeUnit.SECONDS
                     )
-                    .addInterceptor(HttpInterceptor())
+                    .addInterceptor(httpInterceptor)
                     .addInterceptor(LogInterceptor())
                     .addInterceptor(NetInterceptor())
                     .addInterceptor(ParamsInterceptor())

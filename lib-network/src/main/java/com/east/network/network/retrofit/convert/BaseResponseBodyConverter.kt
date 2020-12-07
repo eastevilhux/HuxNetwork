@@ -42,7 +42,6 @@ class BaseResponseBodyConverter<T> internal constructor(
         LogUtil.d(TAG,encryption.toString());
         if(encryption){
             //需要数据解密
-            data = DataHelper.instance.encryptData(data);
             LogUtil.d(TAG,data);
             var result = Result<T>();
             result.code = code;
@@ -50,8 +49,13 @@ class BaseResponseBodyConverter<T> internal constructor(
             result.encryption = encryption;
             result.msg = json.optString("msg");
             result.tag = json.optString("tag");
+            var dataStr = json.optString("data");
+            LogUtil.d(TAG,"RESULT_DATA=>${dataStr}")
+            dataStr = URLDecoder.decode(dataStr,NetworkHelper.instance().httpConfig().charset());
+            dataStr = DataHelper.instance.decrpytData(dataStr);
+            LogUtil.d(TAG,"RESULT_DECRPYT=>${dataStr}")
             val type: Type = object : TypeToken<T>() {}.type
-            var t = gson.fromJson<T>(data,type);
+            var t = gson.fromJson<T>(dataStr,type);
             result.data = t;
             var gsonData = gson.toJson(result);
             LogUtil.e(TAG,gsonData);
