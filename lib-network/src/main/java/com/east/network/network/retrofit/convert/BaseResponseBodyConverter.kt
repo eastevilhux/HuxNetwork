@@ -61,8 +61,13 @@ class BaseResponseBodyConverter<T> internal constructor(
             val type: Type = object : TypeToken<Result<T>?>() {}.type
             var result : Result<T> = gson.fromJson(data,type);
             data = result.data.toString();
-            data = URLDecoder.decode(data,NetworkHelper.instance().httpConfig().charset());
-            val s = String(Base64Util.decode(data), NetworkHelper.instance().httpConfig().httpCharset());
+            if(NetworkHelper.instance().httpConfig().isNeedURLDecode()){
+                data = URLDecoder.decode(data,NetworkHelper.instance().httpConfig().charset());
+            }
+            var s = data;
+            if(NetworkHelper.instance().httpConfig().isNeedBase64()){
+                s = String(Base64Util.decode(data), NetworkHelper.instance().httpConfig().httpCharset());
+            }
             LogUtil.d(TAG,"base64_to_string==>${s}");
             try{
                 Log.d(TAG,"S_TO_JSON=>")

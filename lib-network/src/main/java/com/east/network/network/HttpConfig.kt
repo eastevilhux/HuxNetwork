@@ -1,5 +1,6 @@
 package com.east.network.network
 
+import java.net.URLDecoder
 import java.nio.charset.Charset
 import java.util.*
 
@@ -18,6 +19,8 @@ class HttpConfig private constructor(builder: Builder) {
     private var CODE_SERVICE_ERROR = -4;
     private var charset : String = "UTF-8";
     private var TIME_OUT : Long = 20L;
+    private var NEED_URL_DECODE : Boolean = true;
+    private var NEED_BASE64 : Boolean = true;
 
     //Retrofit缓存时间为1小时
     private var MAX_AGE : Int = 60;
@@ -36,6 +39,8 @@ class HttpConfig private constructor(builder: Builder) {
         TIME_OUT = builder.TIME_OUT
         MAX_AGE = builder.MAX_AGE
         charset = builder.charset
+        NEED_URL_DECODE = builder.NEED_URL_DECODE
+        NEED_BASE64 = builder.NEED_BASE64
         HTTP_CHARSET = Charset.forName(builder.charset)
     }
 
@@ -58,6 +63,8 @@ class HttpConfig private constructor(builder: Builder) {
         internal var CODE_SERVICE_ERROR = -4;
         internal var charset : String = "UTF-8";
         internal var TIME_OUT : Long = 20L;
+        internal var NEED_URL_DECODE : Boolean = true;
+        internal var NEED_BASE64 : Boolean = true;
 
         //Retrofit缓存时间为1小时
         internal var MAX_AGE : Int = 60;
@@ -121,6 +128,16 @@ class HttpConfig private constructor(builder: Builder) {
             healder!![key] = value;
         }
 
+        fun needURLDecoder(decodeFlag : Boolean): Builder {
+            NEED_URL_DECODE = decodeFlag;
+            return this;
+        }
+
+        fun needBase64(base64Flag : Boolean): Builder {
+            NEED_BASE64 = base64Flag;
+            return this;
+        }
+
         fun builder() : HttpConfig {
             return HttpConfig(this);
         }
@@ -164,5 +181,13 @@ class HttpConfig private constructor(builder: Builder) {
 
     fun maxAge(): Int {
         return MAX_AGE;
+    }
+
+    fun isNeedURLDecode(): Boolean {
+        return NEED_URL_DECODE;
+    }
+
+    fun isNeedBase64(): Boolean {
+        return NEED_BASE64;
     }
 }
