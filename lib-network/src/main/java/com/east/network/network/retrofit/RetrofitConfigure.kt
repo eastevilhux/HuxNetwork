@@ -38,9 +38,13 @@ class RetrofitConfigure {
                     .addNetworkInterceptor(HttpInterceptor())
                     .build()
 
+                var newRetrofit = retrofit.newBuilder()
+                    .client(okHttpClient)
+                    .build();
+
                 val m = HashMap<String, Any>(map.size)
                 for(en in map){
-                    val t = retrofit.create(en.value);
+                    val t = newRetrofit.create(en.value);
                     m[en.key] = t;
                 }
                 return m
