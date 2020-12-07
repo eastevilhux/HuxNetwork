@@ -51,7 +51,9 @@ class BaseResponseBodyConverter<T> internal constructor(
             result.tag = json.optString("tag");
             var dataStr = json.optString("data");
             LogUtil.d(TAG,"RESULT_DATA=>${dataStr}")
-            dataStr = URLDecoder.decode(dataStr,NetworkHelper.instance().httpConfig().charset());
+            if(NetworkHelper.instance().httpConfig().isNeedURLDecode()){
+                dataStr = URLDecoder.decode(dataStr,NetworkHelper.instance().httpConfig().charset());
+            }
             dataStr = DataHelper.instance.decrpytData(dataStr);
             LogUtil.d(TAG,"RESULT_DECRPYT=>${dataStr}")
             val type: Type = object : TypeToken<T>() {}.type
@@ -87,50 +89,6 @@ class BaseResponseBodyConverter<T> internal constructor(
             val reader = StringReader(gsonData);
             return adapter.fromJson(reader)
         }
-
-        /*if(encryption){
-            data = json.optString("data");
-            if(data.isEmpty()){
-                return adapter.fromJson(data);
-            }
-            data = URLDecoder.decode(data,HttpConfig.UTF8_CHARSET);
-            Constants.serviceKey?.let {
-                Log.d(TAG,Constants.decrypType.toString());
-                when(Constants.decrypType){
-                    Constants.DecrypType.DECRYPT_RSA -> data = RSAUtil.decryptByPublicKey(data,it)
-                    Constants.DecrypType.DECRYPT_AES -> data = Constants.serviceKey?.let { AESUtil.aesDecrypt(data, it) };
-                }
-            }
-            Log.d(TAG,data);
-            var result = Result<T>();
-            result.code = code;
-            result.state = json.optBoolean("state");
-            result.encryption = encryption;
-            result.msg = json.optString("msg");
-            result.tag = json.optString("tag");
-            val type: Type = object : TypeToken<T>() {}.type
-            var t = gson.fromJson<T>(data,type);
-            result.data = t;
-            var gsonData = gson.toJson(result);
-            LogUtil.e(TAG,gsonData);
-            val reader = StringReader(gsonData);
-            return adapter.fromJson(reader)
-        }else {
-            val type: Type = object : TypeToken<Result<T>?>() {}.type
-            var result : Result<T> = gson.fromJson(data,type);
-            data = result.data.toString();
-            data = URLDecoder.decode(data,HttpConfig.UTF8_CHARSET);
-            val s = String(Base64Util.decode(data), HttpConfig.HTTP_CHARSET);
-            if(s.isJson()){
-                result.data = gson.fromJson<T>(s,object : TypeToken<T?>() {}.type);
-            }else{
-                result.data = s as T;
-            }
-            var gsonData = gson.toJson(result);
-            LogUtil.e(TAG,gsonData);
-            val reader = StringReader(gsonData);
-            return adapter.fromJson(reader)
-        }*/
     }
 
 }

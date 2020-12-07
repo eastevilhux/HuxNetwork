@@ -14,7 +14,7 @@ import java.io.OutputStreamWriter
 class BaseReqeustBodyConverter<T>(private val gson:Gson, val adapter: TypeAdapter<T>) : Converter<T,RequestBody>{
     companion object{
         private val MEDIA_TYPE: MediaType? = MediaType.parse("text/application/json; charset=UTF-8");
-        const val TAG = "YKReqeustBodyConverter==>";
+        const val TAG = "BaseReqeustBodyConverter==>";
     }
 
 

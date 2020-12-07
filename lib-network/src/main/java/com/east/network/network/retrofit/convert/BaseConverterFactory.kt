@@ -32,7 +32,7 @@ class BaseConverterFactory(private val gson:Gson) : Converter.Factory(){
     }
 
     companion object{
-        private  val TAG = "EastConverterFactory=>";
+        private  val TAG = "BaseConverterFactory=>";
 
         fun create() : BaseConverterFactory {
             return create(Gson());
