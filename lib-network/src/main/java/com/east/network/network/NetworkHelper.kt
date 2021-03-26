@@ -40,6 +40,10 @@ class NetworkHelper private constructor(builder: HttpConfig.Builder){
         fun instance(): NetworkHelper {
             return myself!!;
         }
+
+        fun mediaType(mediaType: String){
+            mHttpConfig?.setMediaType(mediaType);
+        }
     }
 
     fun httpConfig(): HttpConfig {
@@ -52,9 +56,5 @@ class NetworkHelper private constructor(builder: HttpConfig.Builder){
 
     fun httpHeader(): HttpInterceptor.HttpHeader? {
         return httpHelper;
-    }
-
-    fun mediaType(mediaType: String){
-        mHttpConfig?.setMediaType(mediaType);
     }
 }
