@@ -2,6 +2,7 @@ package com.east.network.network
 
 import com.east.network.network.interceptor.HttpInterceptor
 import com.east.network.network.retrofit.model.AppModel
+import okhttp3.MediaType
 import java.util.*
 
 class NetworkHelper private constructor(builder: HttpConfig.Builder){
@@ -51,5 +52,9 @@ class NetworkHelper private constructor(builder: HttpConfig.Builder){
 
     fun httpHeader(): HttpInterceptor.HttpHeader? {
         return httpHelper;
+    }
+
+    fun mediaType(mediaType: String){
+        mHttpConfig?.setMediaType(mediaType);
     }
 }

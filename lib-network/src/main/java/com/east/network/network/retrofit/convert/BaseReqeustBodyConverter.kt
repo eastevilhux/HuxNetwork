@@ -1,6 +1,7 @@
 package com.east.network.network.retrofit.convert
 
 import android.annotation.SuppressLint
+import com.east.network.network.HttpConfig
 import com.google.gson.Gson
 import com.google.gson.TypeAdapter
 import com.east.network.network.NetworkHelper
@@ -13,7 +14,6 @@ import java.io.OutputStreamWriter
 
 class BaseReqeustBodyConverter<T>(private val gson:Gson, val adapter: TypeAdapter<T>) : Converter<T,RequestBody>{
     companion object{
-        private val MEDIA_TYPE: MediaType? = MediaType.parse("text/application/json; charset=UTF-8");
         const val TAG = "BaseReqeustBodyConverter==>";
     }
 
@@ -27,7 +27,8 @@ class BaseReqeustBodyConverter<T>(private val gson:Gson, val adapter: TypeAdapte
         val jsonWriter = gson.newJsonWriter(writer)
         adapter.write(jsonWriter, value)
         jsonWriter.close()
-        return RequestBody.create(MEDIA_TYPE, buffer.readByteString());
+        val mediaType = MediaType.parse(NetworkHelper.instance().httpConfig().mediaType())
+        return RequestBody.create(mediaType, buffer.readByteString());
     }
 
 }

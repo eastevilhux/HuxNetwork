@@ -1,5 +1,6 @@
 package com.east.network.network
 
+import okhttp3.MediaType
 import java.net.URLDecoder
 import java.nio.charset.Charset
 import java.util.*
@@ -27,6 +28,8 @@ class HttpConfig private constructor(builder: Builder) {
 
     private var HTTP_CHARSET = Charset.forName(charset);
 
+    private var MEDIA_TYPE = "text/application/json; charset=UTF-8";
+
     init {
         SERVICE_URL = builder.SERVICE_URL
         TOKEN_URL = builder.TOKEN_URL
@@ -42,10 +45,7 @@ class HttpConfig private constructor(builder: Builder) {
         NEED_URL_DECODE = builder.NEED_URL_DECODE
         NEED_BASE64 = builder.NEED_BASE64
         HTTP_CHARSET = Charset.forName(builder.charset)
-    }
-
-    companion object{
-
+        MEDIA_TYPE = ""
     }
 
     class Builder(serviceUrl: String) {
@@ -65,6 +65,7 @@ class HttpConfig private constructor(builder: Builder) {
         internal var TIME_OUT : Long = 20L;
         internal var NEED_URL_DECODE : Boolean = true;
         internal var NEED_BASE64 : Boolean = true;
+        internal var MEDIA_TYPE : String = "text/application/json; charset=UTF-8";
 
         //Retrofit缓存时间为1小时
         internal var MAX_AGE : Int = 60;
@@ -138,9 +139,15 @@ class HttpConfig private constructor(builder: Builder) {
             return this;
         }
 
+        fun mediaType(mediaType: String): Builder {
+            this.MEDIA_TYPE = mediaType;
+            return this;
+        }
+
         fun builder() : HttpConfig {
             return HttpConfig(this);
         }
+
     }
 
     fun baseUrl(): String {
@@ -189,5 +196,13 @@ class HttpConfig private constructor(builder: Builder) {
 
     fun isNeedBase64(): Boolean {
         return NEED_BASE64;
+    }
+
+    fun mediaType(): String {
+        return MEDIA_TYPE;
+    }
+
+    fun setMediaType(mediaType : String){
+        this.MEDIA_TYPE = mediaType;
     }
 }
