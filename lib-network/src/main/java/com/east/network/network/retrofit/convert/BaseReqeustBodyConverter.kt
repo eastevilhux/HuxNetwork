@@ -14,6 +14,7 @@ import java.io.OutputStreamWriter
 
 class BaseReqeustBodyConverter<T>(private val gson:Gson, val adapter: TypeAdapter<T>) : Converter<T,RequestBody>{
     companion object{
+        private var MEDIA_TYPE: MediaType? = MediaType.parse("multipart/form-data");
         const val TAG = "BaseReqeustBodyConverter==>";
     }
 
@@ -27,8 +28,8 @@ class BaseReqeustBodyConverter<T>(private val gson:Gson, val adapter: TypeAdapte
         val jsonWriter = gson.newJsonWriter(writer)
         adapter.write(jsonWriter, value)
         jsonWriter.close()
-        val mediaType = MediaType.parse(NetworkHelper.instance().httpConfig().mediaType())
-        return RequestBody.create(mediaType, buffer.readByteString());
+        NetworkHelper.instance().httpConfig().mediaType();
+        return RequestBody.create(MEDIA_TYPE, buffer.readByteString());
     }
 
 }

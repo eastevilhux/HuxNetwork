@@ -28,7 +28,7 @@ class HttpConfig private constructor(builder: Builder) {
 
     private var HTTP_CHARSET = Charset.forName(charset);
 
-    private var MEDIA_TYPE = "text/application/json; charset=UTF-8";
+    private var MEDIA_TYPE = "multipart/form-data";
 
     init {
         SERVICE_URL = builder.SERVICE_URL
@@ -65,7 +65,7 @@ class HttpConfig private constructor(builder: Builder) {
         internal var TIME_OUT : Long = 20L;
         internal var NEED_URL_DECODE : Boolean = true;
         internal var NEED_BASE64 : Boolean = true;
-        internal var MEDIA_TYPE : String = "text/application/json; charset=UTF-8";
+        internal var MEDIA_TYPE : String = "multipart/form-data";
 
         //Retrofit缓存时间为1小时
         internal var MAX_AGE : Int = 60;
