@@ -10,6 +10,7 @@ import com.east.network.network.retrofit.convert.BaseConverterFactory
 import com.east.network.utils.JsonUtil
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 class RetrofitConfigure {
@@ -78,11 +79,7 @@ class RetrofitConfigure {
 
                 val mRetrofit: Retrofit = Retrofit.Builder()
                     .baseUrl(baseUrl)
-                    .addConverterFactory(
-                        BaseConverterFactory.create(
-                            JsonUtil.instance.getGson()
-                        )
-                    ) //添加gson转换器
+                    .addConverterFactory(GsonConverterFactory.create(JsonUtil.instance.getGson())) //添加gson转换器
                     .addCallAdapterFactory(BaseCallAdapterFactory()) //添加rxjava转换器
                     .client(okHttpClient)
                     .build()
