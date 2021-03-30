@@ -4,7 +4,6 @@ import com.east.network.network.NetworkHelper
 import com.east.network.network.interceptor.HttpInterceptor
 import com.east.network.network.interceptor.LogInterceptor
 import com.east.network.network.interceptor.NetInterceptor
-import com.east.network.network.interceptor.ParamsInterceptor
 import com.east.network.network.retrofit.adapter.BaseCallAdapterFactory
 import com.east.network.network.retrofit.convert.BaseConverterFactory
 import com.east.network.utils.JsonUtil
@@ -35,7 +34,6 @@ class RetrofitConfigure {
                     .addInterceptor(HttpInterceptor())
                     .addInterceptor(LogInterceptor())
                     .addInterceptor(NetInterceptor())
-                    .addInterceptor(ParamsInterceptor())
                     .addNetworkInterceptor(HttpInterceptor())
                     .build()
 
@@ -73,7 +71,6 @@ class RetrofitConfigure {
                     .addInterceptor(HttpInterceptor())
                     .addInterceptor(LogInterceptor())
                     .addInterceptor(NetInterceptor())
-                    .addInterceptor(ParamsInterceptor())
                     .addNetworkInterceptor(HttpInterceptor())
                     .build()
 
@@ -113,7 +110,6 @@ class RetrofitConfigure {
                     .addInterceptor(httpInterceptor)
                     .addInterceptor(LogInterceptor())
                     .addInterceptor(NetInterceptor())
-                    .addInterceptor(ParamsInterceptor())
                     .addNetworkInterceptor(HttpInterceptor())
                     .build()
 
