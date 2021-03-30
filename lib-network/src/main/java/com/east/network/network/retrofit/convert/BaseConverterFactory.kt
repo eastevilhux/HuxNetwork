@@ -21,16 +21,6 @@ class BaseConverterFactory(private val gson:Gson) : Converter.Factory(){
         return BaseResponseBodyConverter(gson,adapter);
     }
 
-    override fun requestBodyConverter(
-        type: Type?,
-        parameterAnnotations: Array<out Annotation>?,
-        methodAnnotations: Array<out Annotation>?,
-        retrofit: Retrofit?
-    ): Converter<*, RequestBody> {
-        val adapter = gson.getAdapter(TypeToken.get(type))
-        return BaseReqeustBodyConverter(gson,adapter);
-    }
-
     companion object{
         private  val TAG = "BaseConverterFactory=>";
 

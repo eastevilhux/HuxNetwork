@@ -41,8 +41,6 @@ class RetrofitConfigure {
 
                 var newRetrofit = retrofit.newBuilder()
                     .client(okHttpClient)
-                    .addConverterFactory(GsonConverterFactory.create(JsonUtil.instance.getGson())) //添加gson转换器
-                    .addCallAdapterFactory(BaseCallAdapterFactory()) //添加rxjava转换器
                     .build();
 
                 val m = HashMap<String, Any>(map.size)
@@ -81,7 +79,7 @@ class RetrofitConfigure {
 
                 val mRetrofit: Retrofit = Retrofit.Builder()
                     .baseUrl(baseUrl)
-                    .addConverterFactory(GsonConverterFactory.create(JsonUtil.instance.getGson())) //添加gson转换器
+                    .addConverterFactory(BaseConverterFactory.create(JsonUtil.instance.getGson())) //添加gson转换器
                     .addCallAdapterFactory(BaseCallAdapterFactory()) //添加rxjava转换器
                     .client(okHttpClient)
                     .build()
@@ -121,7 +119,7 @@ class RetrofitConfigure {
 
                 val mRetrofit: Retrofit = Retrofit.Builder()
                     .baseUrl(NetworkHelper.instance().httpConfig().baseUrl())
-                    .addConverterFactory(GsonConverterFactory.create(JsonUtil.instance.getGson())) //添加gson转换器
+                    .addConverterFactory(BaseConverterFactory.create(JsonUtil.instance.getGson())) //添加gson转换器
                     .addCallAdapterFactory(BaseCallAdapterFactory()) //添加rxjava转换器
                     .client(okHttpClient)
                     .build()
