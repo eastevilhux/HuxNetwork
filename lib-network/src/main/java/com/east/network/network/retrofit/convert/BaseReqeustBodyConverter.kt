@@ -11,25 +11,21 @@ import okhttp3.RequestBody
 import okio.Buffer
 import retrofit2.Converter
 import java.io.OutputStreamWriter
+import java.nio.charset.Charset
 
 class BaseReqeustBodyConverter<T>(private val gson:Gson, val adapter: TypeAdapter<T>) : Converter<T,RequestBody>{
-    companion object{
-        private var MEDIA_TYPE: MediaType? = MediaType.parse("multipart/form-data");
-        const val TAG = "BaseReqeustBodyConverter==>";
-    }
-
-
-    @SuppressLint("LongLogTag")
     override fun convert(value: T): RequestBody {
-        LogUtil.d(TAG,"convert");
-        val buffer = Buffer();
-        val writer = OutputStreamWriter(buffer.outputStream(),
-            NetworkHelper.instance().httpConfig().httpCharset());
+        val buffer = Buffer()
+        val writer = OutputStreamWriter(buffer.outputStream(), UTF_8)
         val jsonWriter = gson.newJsonWriter(writer)
         adapter.write(jsonWriter, value)
         jsonWriter.close()
-        NetworkHelper.instance().httpConfig().mediaType();
-        return RequestBody.create(MEDIA_TYPE, buffer.readByteString());
+        return RequestBody.create(MEDIA_TYPE, buffer.readByteString())
+    }
+
+    companion object {
+        private val MEDIA_TYPE: MediaType? = MediaType.parse("application/json; charset=UTF-8")
+        private val UTF_8 = Charset.forName("UTF-8")
     }
 
 }
