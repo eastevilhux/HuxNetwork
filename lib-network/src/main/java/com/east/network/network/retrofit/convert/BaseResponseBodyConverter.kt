@@ -96,7 +96,7 @@ class BaseResponseBodyConverter<T> internal constructor(
             }else {
                 //根据配置进行判断是否要进行base64处理
                 if (NetworkHelper.instance().httpConfig().isNeedBase64()) {
-                    dataStr = String(Base64Util.decode(data), NetworkHelper.instance().httpConfig().httpCharset());
+                    dataStr = String(Base64Util.decode(dataStr), NetworkHelper.instance().httpConfig().httpCharset());
                     LogUtil.d(TAG,"base64_to_string==>${dataStr}");
                 }
             }
