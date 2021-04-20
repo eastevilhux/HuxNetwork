@@ -1,7 +1,6 @@
-package com.yunkai.framework.network.retrofit.service
+package com.east.network.network.retrofit.service
 
-import com.yunkai.framework.network.entity.Result
-import retrofit2.http.GET
+import com.east.network.network.entity.Result
 import retrofit2.http.POST
 import retrofit2.http.Path
 

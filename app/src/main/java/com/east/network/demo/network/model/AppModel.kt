@@ -4,7 +4,7 @@ import com.east.network.demo.local.ConfigureHelper
 import com.east.network.demo.network.service.AppService
 import com.hb.travel.entity.Event
 import com.hb.travel.entity.KeySet
-import com.yunkai.framework.network.entity.Result
+import com.east.network.network.entity.Result
 
 class AppModel private constructor(){
     companion object {

@@ -2,11 +2,10 @@ package com.east.network.demo.network.service
 
 import com.hb.travel.entity.Event
 import com.hb.travel.entity.KeySet
-import com.yunkai.framework.network.entity.Result
+import com.east.network.network.entity.Result
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
-import java.security.interfaces.RSAKey
 
 interface AppService {
 

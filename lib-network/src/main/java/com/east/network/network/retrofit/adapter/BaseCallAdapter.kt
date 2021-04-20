@@ -1,7 +1,7 @@
 package com.east.network.network.retrofit.adapter
 
 import com.east.network.network.NetworkHelper
-import com.yunkai.framework.network.entity.Result
+import com.east.network.network.entity.Result
 import com.east.network.utils.LogUtil
 import retrofit2.Call
 import retrofit2.CallAdapter
@@ -41,7 +41,8 @@ class BaseCallAdapter<R>(private val type: Type) : CallAdapter<R, R> {
 
     private fun loginError(): R {
         LogUtil.d(TAG,"login_error");
-        return exception(Result<Any>(),"login_error",
+        return exception(
+            Result<Any>(),"login_error",
             NetworkHelper.instance().httpConfig().loginErrorCode()) as R;
     }
 
@@ -69,7 +70,8 @@ class BaseCallAdapter<R>(private val type: Type) : CallAdapter<R, R> {
 
     private fun networkError() : R{
         LogUtil.d(TAG,"networkError");
-        return exception(Result<Any>(),"network_error",
+        return exception(
+            Result<Any>(),"network_error",
             NetworkHelper.instance().httpConfig().networkErrorCode()) as R;
     }
 

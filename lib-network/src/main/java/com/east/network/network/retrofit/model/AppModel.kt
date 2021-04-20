@@ -1,7 +1,7 @@
 package com.east.network.network.retrofit.model
 
 import com.east.network.network.retrofit.RetrofitConfigure
-import com.yunkai.framework.network.retrofit.service.AppService
+import com.east.network.network.retrofit.service.AppService
 
 class AppModel {
     companion object{
@@ -25,7 +25,7 @@ class AppModel {
 
     private fun initRetrofit():HashMap<String,Any>{
         var m = HashMap<String, Class<*>>();
-        m.put(SERVICE_KEY_ACCOUNT,AppService::class.java)
+        m.put(SERVICE_KEY_ACCOUNT, AppService::class.java)
         var map =  RetrofitConfigure.registerService(m);
         return map;
     }

@@ -2,7 +2,6 @@ package com.east.network.network.retrofit.convert
 
 import android.annotation.SuppressLint
 import android.util.Log
-import com.east.network.network.HttpConfig
 import com.google.gson.Gson
 import com.google.gson.TypeAdapter
 import com.google.gson.reflect.TypeToken
@@ -10,8 +9,7 @@ import com.east.network.network.NetworkHelper
 import com.east.network.network.datasource.DataHelper
 import com.east.network.utils.Base64Util
 import com.east.network.utils.LogUtil
-import com.yunkai.framework.network.entity.Result
-import com.east.network.utils.isJson
+import com.east.network.network.entity.Result
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Converter
@@ -49,11 +47,22 @@ class BaseResponseBodyConverter<T> internal constructor(
             result.encryption = encryption;
             result.msg = json.optString("msg");
             result.tag = json.optString("tag");
+            result.base64 = json.optBoolean("base64");
+            result.urlEncoder = json.optBoolean("urlEncoder");
+
             var dataStr = json.optString("data");
             LogUtil.d(TAG,"RESULT_DATA=>${dataStr}")
-            if(NetworkHelper.instance().httpConfig().isNeedURLDecode()){
+
+            //判断是否需要进行URLDecode
+            if(result.urlEncoder){
                 dataStr = URLDecoder.decode(dataStr,NetworkHelper.instance().httpConfig().charset());
+            }else{
+                if(NetworkHelper.instance().httpConfig().isNeedURLDecode()){
+                    //后端返回数据中为false，则根据当前app的配置来判断
+                    dataStr = URLDecoder.decode(dataStr,NetworkHelper.instance().httpConfig().charset());
+                }
             }
+            //进行数据解密处理
             dataStr = DataHelper.instance.decrpytData(dataStr);
             LogUtil.d(TAG,"RESULT_DECRPYT=>${dataStr}")
             val type: Type = object : TypeToken<T>() {}.type
@@ -67,12 +76,26 @@ class BaseResponseBodyConverter<T> internal constructor(
             val type: Type = object : TypeToken<Result<T>?>() {}.type
             var result : Result<T> = gson.fromJson(data,type);
             data = result.data.toString();
-            if(NetworkHelper.instance().httpConfig().isNeedURLDecode()){
+            //判断是否需要进行URLEcode
+            if(result.urlEncoder){
+                //如果后端返回的urlencode字段为true,则不考虑app中的配置
                 data = URLDecoder.decode(data,NetworkHelper.instance().httpConfig().charset());
+            }else{
+                //如果为false，则根据配置来进行判断
+                if(NetworkHelper.instance().httpConfig().isNeedURLDecode()){
+                    data = URLDecoder.decode(data,NetworkHelper.instance().httpConfig().charset());
+                }
             }
             var s = data;
-            if(NetworkHelper.instance().httpConfig().isNeedBase64()){
+            //判断是否要进行BASE64处理
+            if(result.base64){
+                //如果后端返回的base64字段为true，则直接进行处理
                 s = String(Base64Util.decode(data), NetworkHelper.instance().httpConfig().httpCharset());
+            }else {
+                //根据配置进行判断是否要进行base64处理
+                if (NetworkHelper.instance().httpConfig().isNeedBase64()) {
+                    s = String(Base64Util.decode(data), NetworkHelper.instance().httpConfig().httpCharset());
+                }
             }
             LogUtil.d(TAG,"base64_to_string==>${s}");
             try{
