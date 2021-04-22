@@ -12,18 +12,19 @@ import java.util.Set;
 import okhttp3.FormBody;
 import okhttp3.Interceptor;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 
 
 public class LogInterceptor implements Interceptor {
 
-    public static String TAG = "LogInterceptor";
+    public static String TAG = "EVIL_HTTP_LOG==>";
 
     public static int httpId = 0;
 
     @Override
     public okhttp3.Response intercept(Chain chain) throws IOException {
 
-        httpId = createRandomNumber(1000,9999);
+        httpId = createRandomNumber(10000,99999);
 
         Request request = chain.request();
         long startTime = System.currentTimeMillis();
@@ -36,7 +37,10 @@ public class LogInterceptor implements Interceptor {
         LogUtil.INSTANCE.d(TAG,httpId+"==URL=>"+request.url());
         String method=request.method();
         LogUtil.INSTANCE.d(TAG,httpId+"==METHOD=>"+method);
-        LogUtil.INSTANCE.d(TAG,httpId+"==REQUEST=>"+request.body().toString());
+        RequestBody b = request.body();
+        if(b != null){
+            LogUtil.INSTANCE.d(TAG,httpId+"==REQUEST=>"+b.toString());
+        }
 
         Set<String> headers = request.headers().names();
         if(headers != null && !headers.isEmpty()){
